@@ -1,7 +1,7 @@
 import openpyxl
 from openpyxl.styles import Font
 from bs4 import BeautifulSoup
-import requests, json
+import requests
 
 wb = openpyxl.Workbook()
 ws = wb.active
@@ -44,6 +44,7 @@ def scrape_page():
             counter+=1
 
         wb.save('productos.xlsx')
+        print("Datos guardados en productos.xlsx")
         return 'productos.xlsx'
     else:
         print("Error al realizar la solicitud")
