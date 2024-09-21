@@ -5,3 +5,4 @@ ngrok.exe
 test.py
 __pycache__/
 examples/
+.env

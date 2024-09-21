@@ -40,12 +40,15 @@ def scrape_page():
             ws.cell(row=counter, column=4).value = sku
             ws.cell(row=counter, column=4).hyperlink = sku
             ws.cell(row=counter, column=4).font = font_azul
+            
+            p_info = {"nombre": nombre, "descripcion": descripcion, "imagen": imagen, "sku": sku}
+            productos_info.append(p_info)
 
             counter+=1
 
         wb.save('productos.xlsx')
         print("Datos guardados en productos.xlsx")
-        return 'productos.xlsx'
+        return productos_info
     else:
         print("Error al realizar la solicitud")
         return False
