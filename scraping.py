@@ -28,7 +28,7 @@ def whatsapp_reply():
                     
             message = client.messages.create(
                 body = ans,
-                from_ = from_,
+                from_ = "whatsapp:+12138949330",
                 to = user_number,
             )
         return Response(status=200)
