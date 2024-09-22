@@ -11,7 +11,6 @@ app = Flask(__name__)
 account_sid = os.getenv('TWILIO_ACCOUNT_SID')
 auth_token = os.getenv('TWILIO_AUTH_TOKEN')
 client = Client(account_sid, auth_token)
-from_ = os.getenv('FROM')
 
 @app.route("/whatsapp", methods=['POST'])
 def whatsapp_reply():
@@ -28,7 +27,7 @@ def whatsapp_reply():
                     
             message = client.messages.create(
                 body = ans,
-                from_ = from_,
+                from_ = "whatsapp:+12138949330",
                 to = user_number,
             )
         return Response(status=200)
