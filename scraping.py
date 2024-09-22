@@ -11,11 +11,12 @@ app = Flask(__name__)
 account_sid = os.getenv('TWILIO_ACCOUNT_SID')
 auth_token = os.getenv('TWILIO_AUTH_TOKEN')
 client = Client(account_sid, auth_token)
+from_ = os.getenv('FROM')
 
 @app.route("/whatsapp", methods=['POST'])
 def whatsapp_reply():
     incoming_msg = request.form['Body']
-    user_number = re.sub(r'^whatsapp:\+', '', request.values.get('From', ''))
+    user_number = request.values.get('From', '')
     if incoming_msg == "1":
         print("Eciglogistica")
         productos_info = eciglogistica.scrape_page()
@@ -26,9 +27,9 @@ def whatsapp_reply():
                 ans += f"{key}: {value}\n"
                     
             message = client.messages.create(
-                body=ans,
-                from_="whatsapp:+13145978086",
-                to=f"whatsapp:+{user_number}",
+                body = ans,
+                from_ = from_,
+                to = user_number,
             )
         return Response(status=200)
     elif incoming_msg == "2":
