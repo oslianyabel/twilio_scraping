@@ -33,29 +33,17 @@ def whatsapp_reply():
             from_ = "whatsapp:+12138949330",
             to = user_number,
             media_url='https://twilio-scraping.onrender.com/static/productos.xlsx'
-            #media_url='https://deb1-152-206-196-96.ngrok-free.app/static/productos.xlsx'
         )
-        
-        """ for p in productos_info:
-            ans = ""
-            for key, value in p.items():
-                ans += f"{key}: {value}\n"
-                    
-            message = client.messages.create(
-                body = ans,
-                from_ = "whatsapp:+12138949330",
-                to = user_number,
-            ) """
         return Response(status=200)
     elif incoming_msg == "2":
         print("Vaperalia ")
         resp = MessagingResponse()
-        resp.message("Por implementar...")
+        resp.message("En Desarrollo...")
         return str(resp)
     elif incoming_msg == "3":
         print("LCA Distribution")
         resp = MessagingResponse()
-        resp.message("Por implementar...")
+        resp.message("En Desarrollo...")
         return str(resp)
     else:
         resp = MessagingResponse()

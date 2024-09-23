@@ -8,7 +8,8 @@ ws = wb.active
 ws['A1'] = 'Nombre'
 ws['B1'] = 'Descripción'
 ws['C1'] = 'Imagen'
-ws['D1'] = 'SKU'
+ws['D1'] = 'Link'
+ws['E1'] = 'SKU'
 font_azul = Font(color='0000FF') 
 
 url = "https://nueva.eciglogistica.com/novedades"
@@ -34,18 +35,28 @@ def scrape_page():
             nombre = producto.find("h5").text.strip()
             descripcion = producto.find("div", class_="product-body").text.strip()
             imagen = producto.find("img", class_="img-fluid")["src"]
-            sku = producto.find("a", class_="product-header")["href"]
+            link = producto.find("a", class_="product-header")["href"]
+            sku = ""
+            response = requests.get(link, headers=headers)
+            if response.status_code == 200:
+                soup = BeautifulSoup(response.content, 'html.parser')
+                sku = soup.find("p", class_="grey-texts mt-lg-0 mt-2 mb-2").text.strip().split(":")[1]
+                print(f"Artículo {sku} scrapeado.")
+            else:
+                print(f"Error al entrar al link: {link}")
+                return False
             
             ws.cell(row=counter, column=1).value = nombre
             ws.cell(row=counter, column=2).value = descripcion
             ws.cell(row=counter, column=3).value = imagen
             ws.cell(row=counter, column=3).hyperlink = imagen
             ws.cell(row=counter, column=3).font = font_azul
-            ws.cell(row=counter, column=4).value = sku
-            ws.cell(row=counter, column=4).hyperlink = sku
+            ws.cell(row=counter, column=4).value = link
+            ws.cell(row=counter, column=4).hyperlink = link
             ws.cell(row=counter, column=4).font = font_azul
+            ws.cell(row=counter, column=5).value = sku
             
-            p_info = {"nombre": nombre, "descripcion": descripcion, "imagen": imagen, "sku": sku}
+            p_info = {"nombre": nombre, "descripcion": descripcion, "imagen": imagen, "link": link, "sku": sku}
             productos_info.append(p_info)
 
             counter+=1
