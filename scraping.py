@@ -13,6 +13,7 @@ auth_token = os.getenv('TWILIO_AUTH_TOKEN')
 client = Client(account_sid, auth_token)
 base_dir = os.path.dirname(os.path.abspath(__file__))
 static_dir = os.path.join(base_dir, 'static')
+print(static_dir)
 
 
 @app.route('/static/<path:filename>')
@@ -28,10 +29,11 @@ def whatsapp_reply():
         print("Eciglogistica")
         productos_info = eciglogistica.scrape_page()
         message = client.messages.create(
-            body = "Excel anclado",
+            body = "Datos Extraídos anclados al excel",
             from_ = "whatsapp:+12138949330",
             to = user_number,
             media_url='https://twilio-scraping.onrender.com/static/productos.xlsx'
+            #media_url='https://deb1-152-206-196-96.ngrok-free.app/static/productos.xlsx'
         )
         
         """ for p in productos_info:

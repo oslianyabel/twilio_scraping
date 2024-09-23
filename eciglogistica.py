@@ -26,6 +26,8 @@ def scrape_page():
         productos_info = []
         base_dir = os.path.dirname(os.path.abspath(__file__))
         static_dir = os.path.join(base_dir, 'static')
+        if not os.path.exists(static_dir):
+            os.makedirs(static_dir)
 
         counter = 2
         for producto in productos:
