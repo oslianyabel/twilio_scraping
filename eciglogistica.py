@@ -46,7 +46,7 @@ def scrape_page():
 
             counter+=1
 
-        wb.save('productos.xlsx')
+        wb.save('static/productos.xlsx')
         print("Datos guardados en productos.xlsx")
         return productos_info
     else:

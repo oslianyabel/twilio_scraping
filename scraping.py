@@ -1,4 +1,4 @@
-from flask import Flask, request, Response
+from flask import Flask, request, Response, send_from_directory
 from twilio.twiml.messaging_response import MessagingResponse
 from twilio.rest import Client
 from waitress import serve
@@ -12,6 +12,12 @@ account_sid = os.getenv('TWILIO_ACCOUNT_SID')
 auth_token = os.getenv('TWILIO_AUTH_TOKEN')
 client = Client(account_sid, auth_token)
 
+
+@app.route('/static/<path:filename>')
+def static_files(filename):
+    return send_from_directory('static', filename)
+
+
 @app.route("/whatsapp", methods=['POST'])
 def whatsapp_reply():
     incoming_msg = request.form['Body']
@@ -19,8 +25,14 @@ def whatsapp_reply():
     if incoming_msg == "1":
         print("Eciglogistica")
         productos_info = eciglogistica.scrape_page()
+        message = client.messages.create(
+            body = "Excel anclado",
+            from_ = "whatsapp:+12138949330",
+            to = user_number,
+            media_url='https://twilio-scraping.onrender.com/static/productos.xlsx'
+        )
         
-        for p in productos_info:
+        """ for p in productos_info:
             ans = ""
             for key, value in p.items():
                 ans += f"{key}: {value}\n"
@@ -29,7 +41,7 @@ def whatsapp_reply():
                 body = ans,
                 from_ = "whatsapp:+12138949330",
                 to = user_number,
-            )
+            ) """
         return Response(status=200)
     elif incoming_msg == "2":
         print("Vaperalia ")
