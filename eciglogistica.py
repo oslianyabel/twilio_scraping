@@ -1,7 +1,7 @@
 import openpyxl
 from openpyxl.styles import Font
 from bs4 import BeautifulSoup
-import requests
+import requests, os
 
 wb = openpyxl.Workbook()
 ws = wb.active
@@ -24,6 +24,8 @@ def scrape_page():
         productos = soup.find_all("div", class_="product card-product box")
         print(len(productos))
         productos_info = []
+        base_dir = os.path.dirname(os.path.abspath(__file__))
+        static_dir = os.path.join(base_dir, 'static')
 
         counter = 2
         for producto in productos:
@@ -46,7 +48,7 @@ def scrape_page():
 
             counter+=1
 
-        wb.save('static/productos.xlsx')
+        wb.save(os.path.join(static_dir, 'productos.xlsx'))
         print("Datos guardados en productos.xlsx")
         return productos_info
     else:
