@@ -61,9 +61,19 @@ def scrape_page():
 
             counter+=1
 
-        wb.save(os.path.join(static_dir, 'productos.xlsx'))
-        print("Datos guardados en productos.xlsx")
+        wb.save(os.path.join(static_dir, 'productos_eciglogistica.xlsx'))
+        print("Datos guardados en productos_eciglogistica.xlsx")
         return productos_info
     else:
         print("Error al realizar la solicitud")
         return False
+
+
+if __name__ == "__main__":
+    productos_info = scrape_page()
+    for p in productos_info:
+        ans = ""
+        for key, value in p.items():
+            ans += f"{key}: {value}\n"
+            
+        print(ans)

@@ -3,7 +3,7 @@ from twilio.twiml.messaging_response import MessagingResponse
 from twilio.rest import Client
 from waitress import serve
 from dotenv import load_dotenv
-import eciglogistica, re, os
+import eciglogistica, os, eciglogistica
 
 load_dotenv()
 app = Flask(__name__)
@@ -26,22 +26,37 @@ def whatsapp_reply():
     incoming_msg = request.form['Body']
     user_number = request.values.get('From', '')
     if incoming_msg == "1":
-        print("Eciglogistica")
-        productos_info = eciglogistica.scrape_page()
+        print("Comenzando Scraping en Eciglogistica.")
         message = client.messages.create(
-            body = "Datos Extraídos anclados al excel",
+            body = "Por favor espere, la operación puede tardar algunos segundos.",
             from_ = "whatsapp:+12138949330",
             to = user_number,
-            media_url='https://twilio-scraping.onrender.com/static/productos.xlsx'
+        )
+        productos_info = eciglogistica.scrape_page()
+        message = client.messages.create(
+            body = "Datos extraídos anclados al excel",
+            from_ = "whatsapp:+12138949330",
+            to = user_number,
+            media_url='https://twilio-scraping.onrender.com/static/productos_eciglogistica.xlsx'
         )
         return Response(status=200)
     elif incoming_msg == "2":
-        print("Vaperalia ")
-        resp = MessagingResponse()
-        resp.message("En Desarrollo...")
-        return str(resp)
+        print("Comenzando Scraping en Vaperalia.")
+        message = client.messages.create(
+            body = "Por favor espere, la operación puede tardar algunos segundos.",
+            from_ = "whatsapp:+12138949330",
+            to = user_number,
+        )
+        eciglogistica.scrape_page()
+        message = client.messages.create(
+            body = "Datos extraídos anclados al excel",
+            from_ = "whatsapp:+12138949330",
+            to = user_number,
+            media_url='https://twilio-scraping.onrender.com/static/productos_vaperalia.xlsx'
+        )
+        return Response(status=200)
     elif incoming_msg == "3":
-        print("LCA Distribution")
+        print("Comenzando Scraping en LCA Distribution.")
         resp = MessagingResponse()
         resp.message("En Desarrollo...")
         return str(resp)
