@@ -13,7 +13,6 @@ auth_token = os.getenv('TWILIO_AUTH_TOKEN')
 client = Client(account_sid, auth_token)
 base_dir = os.path.dirname(os.path.abspath(__file__))
 static_dir = os.path.join(base_dir, 'static')
-print(static_dir)
 
 
 @app.route('/static/<path:filename>')
@@ -67,5 +66,8 @@ def whatsapp_reply():
 
 
 if __name__ == "__main__":
+    if not os.path.exists(static_dir):
+        os.makedirs(static_dir)
+    #print(static_dir)
     print("API Online!")
     serve(app, host="0.0.0.0", port=5000)

@@ -16,6 +16,8 @@ url = "https://nueva.eciglogistica.com/novedades"
 headers = {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3",
 }
+base_dir = os.path.dirname(os.path.abspath(__file__))
+static_dir = os.path.join(base_dir, 'static')
 
 def scrape_page():
     response = requests.get(url, headers=headers)
@@ -25,10 +27,6 @@ def scrape_page():
         productos = soup.find_all("div", class_="product card-product box")
         print(len(productos))
         productos_info = []
-        base_dir = os.path.dirname(os.path.abspath(__file__))
-        static_dir = os.path.join(base_dir, 'static')
-        if not os.path.exists(static_dir):
-            os.makedirs(static_dir)
 
         counter = 2
         for producto in productos:
