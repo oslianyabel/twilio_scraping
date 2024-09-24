@@ -3,7 +3,7 @@ from twilio.twiml.messaging_response import MessagingResponse
 from twilio.rest import Client
 from waitress import serve
 from dotenv import load_dotenv
-import eciglogistica, os, eciglogistica
+import eciglogistica, os, vaperalia
 
 load_dotenv()
 app = Flask(__name__)
@@ -46,7 +46,7 @@ def whatsapp_reply():
             from_ = "whatsapp:+12138949330",
             to = user_number,
         )
-        eciglogistica.scrape_page()
+        vaperalia.scrape_page()
         message = client.messages.create(
             body = "Datos extraídos anclados al excel",
             from_ = "whatsapp:+12138949330",
