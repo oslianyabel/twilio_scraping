@@ -2,9 +2,10 @@ from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
-from dotenv import load_dotenv
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from webdriver_manager.chrome import ChromeDriverManager
+from dotenv import load_dotenv
 import openpyxl
 from openpyxl.styles import Font
 import os
@@ -23,7 +24,7 @@ ws['E1'] = 'Referencia'
 font_azul = Font(color='0000FF') 
 
 def iniciar_chrome():
-    ruta = f"{base_dir}\chromedriver.exe"
+    ruta = ChromeDriverManager().install()
     options = Options()
     user_agent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:125.0) Gecko/20100101 Firefox/125.0"
     options.add_argument(f"user-agent={user_agent}")
